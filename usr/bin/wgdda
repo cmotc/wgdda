@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# determine characteristics of the desktop environment
+    if  [ [ ps -A | egrep -i "mate" ] || [ ps -A | egrep -i "lxde" ] || [ ps -A | egrep -i "xfce" ] ] ; then
+        export XGUI_DIALOG="true"
+    elif [ [ ps -A | egrep -i "gnome" ] || [ ps -A | egrep -i "cinnamon" ] ]; then
+        export XGUI_DIALOG="true"
+        export DE="gnome-shell"
+    elif [ ps -A | egrep -i "kde" ]; then
+        export XGUI_DIALOG="true"
+        export DE="kde"
+    fi 
+
+if [ -f /usr/bin/whiptail ]; then
+    alias dialog=whiptail
+elif [ -f /usr/bin/dialog ]; then
+    alias dialog=dialog
+fi
+
+if [ ! "NOGUI_DIALOG" == "" ]; then
+    if [ "$XGUI_DIALOG" == "true" ]; then
+        if [ -f /usr/bin/zenity ]; then
+            alias dialog=zenity
+        elif [ -f /usr/bin/xdialog ]; then
+	    alias dialog=xdialog
+        else
+            echo "Interface Dependency not satisfied(Install
+either zenity or xdialog.)"
+            exit 4
+        fi
+    fi
+    if [ "$DE" == "gnome-shell" ]; then
+        if [ -f /usr/bin/gdialog ]; then
+	    alias dialog=gdialog
+        fi
+    elif [ "$DE" == "kde" ]; then
+        if [ -f /usr/bin/kdialog ]; then
+            alias dialog=kdialog
+        fi
+    fi
+fi
