@@ -9,7 +9,7 @@
     elif [ ps -A | egrep -i "kde" ]; then
         export XGUI_DIALOG="true"
         export DE="kde"
-    fi 
+    fi
 
 if [ -f /usr/bin/whiptail ]; then
     alias dialog=whiptail
@@ -17,25 +17,25 @@ elif [ -f /usr/bin/dialog ]; then
     alias dialog=dialog
 fi
 
-if [ ! "NOGUI_DIALOG" == "" ]; then
+if [ "$NOGUI_DIALOG" == "" ]; then
     if [ "$XGUI_DIALOG" == "true" ]; then
         if [ -f /usr/bin/zenity ]; then
-            alias dialog=zenity
+            alias dialog=zenity && check="Y"
         elif [ -f /usr/bin/xdialog ]; then
-	    alias dialog=xdialog
-        else
-            echo "Interface Dependency not satisfied(Install
-either zenity or xdialog.)"
-            exit 4
+	    alias dialog=xdialog && check="Y"
         fi
     fi
     if [ "$DE" == "gnome-shell" ]; then
         if [ -f /usr/bin/gdialog ]; then
-	    alias dialog=gdialog
+	    alias dialog=gdialog && check="Y"
         fi
     elif [ "$DE" == "kde" ]; then
         if [ -f /usr/bin/kdialog ]; then
-            alias dialog=kdialog
+            alias dialog=kdialog && check="Y"
         fi
+    fi
+    if [ ! "$check" == "Y" ]; then
+        echo "Critical Error! Interface Dependency not satisfied(Install either
+zenity or xdialog.)"
     fi
 fi
