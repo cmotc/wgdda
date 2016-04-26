@@ -5,12 +5,12 @@ SOURCEBIN=wgdda
 SOURCEDOC=README.md
 DEBFOLDER=wgdda
 DEBVERSION=$(date +%Y%m%d)
-TOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TOME="$( cd "$( dirname "$0" )" && pwd )"
 cd $TOME
 
 git pull origin master
 
-DEBFOLDERNAME="../$DEBFOLDER-$DEBVERSION"
+DEBFOLDERNAME="$TOME/../$DEBFOLDER-$DEBVERSION"
 
 # Create your scripts source dir
 mkdir $DEBFOLDERNAME
@@ -36,6 +36,7 @@ echo $SOURCEDOC usr/share/doc/$DEBFOLDER >> debian/install
 
 # Remove the example files
 rm debian/*.ex
+rm debian/*.EX
 
 # Build the package.
 # You  will get a lot of warnings and ../somescripts_0.1-1_i386.deb
