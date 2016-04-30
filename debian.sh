@@ -1,11 +1,17 @@
-#! /bin/sh
+#! /bin/dash
 # Configure your paths and filenames
 SOURCEBINPATH=.
 SOURCEBIN=wgdda
 SOURCEDOC=README.md
 DEBFOLDER=wgdda
 DEBVERSION=$(date +%Y%m%d)
-TOME="$( cd "$( dirname "$0" )" && pwd )"
+
+if [ -n "$BASH_VERSION" ]; then
+	TOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+else
+	TOME=$( cd "$( dirname "$0" )" && pwd )
+fi
+echo $TOME
 cd $TOME
 
 git pull origin master
@@ -20,7 +26,7 @@ cp $TOME $DEBFOLDERNAME -R
 cd $DEBFOLDERNAME
 
 # Create the packaging skeleton (debian/*)
-dh_make -s --indep --createorig 
+dh_make --indep --createorig 
 
 mkdir -p debian/tmp
 cp * debian/tmp -Rv
