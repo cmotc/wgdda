@@ -14,7 +14,7 @@ fi
 echo $TOME
 cd $TOME
 
-git pull origin master
+#git pull origin master
 
 DEBFOLDERNAME="$TOME/../$DEBFOLDER-$DEBVERSION"
 
@@ -22,14 +22,14 @@ DEBFOLDERNAME="$TOME/../$DEBFOLDER-$DEBVERSION"
 mkdir $DEBFOLDERNAME
 
 # Copy your script to the source dir
-cp $TOME $DEBFOLDERNAME -R
+cp $TOME $DEBFOLDERNAME -Rv
 cd $DEBFOLDERNAME
 
 # Create the packaging skeleton (debian/*)
 dh_make --indep --createorig 
 
-mkdir -p debian/tmp
-cp * debian/tmp -Rv
+#mkdir -p debian/tmp
+#cp * debian/tmp -Rv
 
 # Remove make calls
 grep -v makefile debian/rules > debian/rules.new 
