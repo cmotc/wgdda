@@ -18,18 +18,12 @@ cd $TOME
 
 DEBFOLDERNAME="$TOME/../$DEBFOLDER-$DEBVERSION"
 
-# Create your scripts source dir
-mkdir $DEBFOLDERNAME
-
 # Copy your script to the source dir
 cp $TOME $DEBFOLDERNAME -Rv
 cd $DEBFOLDERNAME
 
 # Create the packaging skeleton (debian/*)
 dh_make --indep --createorig 
-
-#mkdir -p debian/tmp
-#cp * debian/tmp -Rv
 
 # Remove make calls
 grep -v makefile debian/rules > debian/rules.new 
@@ -43,6 +37,8 @@ echo $SOURCEDOC usr/share/doc/$DEBFOLDER >> debian/install
 # Remove the example files
 rm debian/*.ex
 rm debian/*.EX
+
+dpkg-source --commit "$DEBFOLDERNAME" "$DEBVERSION"
 
 # Build the package.
 # You  will get a lot of warnings and ../somescripts_0.1-1_i386.deb
