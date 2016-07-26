@@ -23,23 +23,23 @@ cp $TOME $DEBFOLDERNAME -Rv
 cd $DEBFOLDERNAME
 
 # Create the packaging skeleton (debian/*)
-dh_make --indep --createorig 
+dh_make --indep --createorig
 
 # Remove make calls
-grep -v makefile debian/rules > debian/rules.new 
-mv debian/rules.new debian/rules 
+grep -v makefile debian/rules > debian/rules.new
+mv debian/rules.new debian/rules
 
-# debian/install must contain the list of scripts to install 
+# debian/install must contain the list of scripts to install
 # as well as the target directory
-echo usr/bin/$SOURCEBIN usr/bin > debian/install 
+echo usr/bin/$SOURCEBIN usr/bin > debian/install
 echo $SOURCEDOC usr/share/doc/$DEBFOLDER >> debian/install
 
 # Remove the example files
 rm debian/*.ex
 rm debian/*.EX
 
-dpkg-source --commit "$DEBFOLDERNAME" "$DEBVERSION"
+#dpkg-source --commit "$DEBFOLDERNAME" "$DEBVERSION"
 
 # Build the package.
 # You  will get a lot of warnings and ../somescripts_0.1-1_i386.deb
-debuild -us -uc > ../log 
+debuild -us -uc > ../log
